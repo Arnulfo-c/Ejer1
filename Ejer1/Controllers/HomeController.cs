@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Ejer1.Models;
+using Ejer1.Db;
 
 namespace Ejer1.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly AppDbContext appDbContext;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, AppDbContext _dbContext)
     {
         _logger = logger;
+        appDbContext = _dbContext;
     }
 
     public IActionResult Index()
     {
-        return View();
+        var alunmos = appDbContext.Alunmos.ToList();
+        return View(alunmos);
     }
 
     public IActionResult Privacy()
